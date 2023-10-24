@@ -1,12 +1,42 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Students;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
-    public function index(){
-        return 'Students';
+    public function index()
+    {
+
+        // $data = Students::where('age', '<', '20')->orderBy('first_name', 'asc') ->limit(3) ->get();
+
+        // $data = DB::table('students')
+        //     ->select(DB::raw('count(*) as gender_count, gender'))->groupBy('gender')->get();
+
+        $data = Students::all();
+
+
+        return view('students.index', ['students' => $data]);
+    }
+
+    public function create(){
+        return view ('students.create')->with('title', 'Add New');
+    }
+
+    public function store(Request $request){
+        $validated = $request->validate([
+            "first_name" => ['required', 'min:4'],
+            "last_name" => ['required', 'min:4'],
+            "gender" => ['required'],
+            "age" => ['required'],
+            "email" => ['required', 'email', Rule::unique('students', 'email')],
+
+       ]);
+        Students::create($validated);
+
+        return redirect('/')->with('message', 'New Student was added successfully');
     }
 }
