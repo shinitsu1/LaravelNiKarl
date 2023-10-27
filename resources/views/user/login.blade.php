@@ -6,6 +6,8 @@
         </a>
     </header>
 
+    <h1>Laravel Yarn</h1>
+
     <main class="bg-white max-w-lg mx-auto p-8 my-10 rounded-lg shadow-2xl">
         <section>
             <h3 class="font-bold text-2xl">Welcome to Student System</h3>
